@@ -7,7 +7,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.database.IContentObserver
-import android.ext.LogViewerApp
 import android.ext.PackageId
 import android.net.Uri
 import android.os.Binder
@@ -441,33 +440,7 @@ object BinderGms2Gca : IGms2Gca.Stub() {
     }
 
     fun showGmsCrashNotification(aer: ApplicationErrorReport) {
-        val ctx = App.ctx()
-
-        val intent = Intent(Intent.ACTION_APP_ERROR)
-        intent.putExtra(Intent.EXTRA_BUG_REPORT, aer)
-        val configVersion = ctx.packageManager.getPackageInfo(ConfigUpdateReceiver.CONFIG_HOLDER_PACKAGE,
-                PackageManager.PackageInfoFlags.of(0L)).longVersionCode
-        intent.putExtra(LogViewerApp.EXTRA_SHOW_REPORT_BUTTON, true)
-        intent.putExtra(Intent.EXTRA_TEXT, "GmsCompatConfig version: $configVersion")
-        intent.setPackage(LogViewerApp.getPackageName());
-
-        val reportAction = run {
-            val url = "https://github.com/GrapheneOS/os-issue-tracker/issues"
-            val urlIntent = Intent(Intent.ACTION_VIEW, Uri.parse(url))
-            val label = ctx.getText(R.string.notif_gms_crash_report)
-            Notification.Action.Builder(null, label, activityPendingIntent(urlIntent)).build()
-        }
-
-        Notifications.builder(Notifications.CH_GMS_CRASHED).run {
-            setContentTitle(ctx.getString(R.string.notif_gms_crash_title, getApplicationLabel(ctx, aer.packageName)))
-            setContentText(ctx.getText(R.string.notif_gms_crash_text))
-            setContentIntent(activityPendingIntent(intent))
-            setShowWhen(true)
-            setAutoCancel(true)
-            setSmallIcon(R.drawable.ic_crash_report)
-            addAction(reportAction)
-            show(Notifications.generateUniqueNotificationId())
-        }
+        /*stub*/
     }
 
     private var prevUeNotifStackTraceId: String? = null
