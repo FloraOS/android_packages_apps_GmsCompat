@@ -2,6 +2,7 @@ package app.grapheneos.gmscompat
 
 import android.app.compat.gms.GmsCompat
 import android.content.Intent
+import android.util.Log
 import android.ext.PackageId
 import android.net.Uri
 import android.os.Bundle
@@ -16,7 +17,8 @@ class MainActivity : CollapsingToolbarBaseActivity() {
         setContentView(R.layout.main_activity)
 
         if (!GmsCompat.isEnabledFor(PackageId.GMS_CORE_NAME, userId)) {
-            val uri = Uri.parse(USAGE_GUIDE_URL)
+            Log.e("GmsCompat/MainActivity", "GmsCompat is not enabled for " + PackageId.GMS_CORE_NAME);
+	    val uri = Uri.parse(USAGE_GUIDE_URL)
             startActivity(Intent(Intent.ACTION_VIEW, uri))
             finishAndRemoveTask()
             return

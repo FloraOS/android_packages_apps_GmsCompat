@@ -11,6 +11,7 @@ import android.ext.PackageId
 import android.net.Uri
 import android.os.PowerManager
 import android.provider.Settings
+import android.util.Log
 import app.grapheneos.gmscompat.App.MainProcessPrefs
 import app.grapheneos.gmscompat.util.PendingAction
 import com.android.internal.gmscompat.GmsInfo
@@ -37,6 +38,7 @@ object Notifications {
     const val ID_MISSING_POST_NOTIFICATIONS_PERM = 9;
     const val ID_ANDROID_AUTO_NEEDS_BASELINE_PERMS = 10
     const val ID_GmsCore_BACKGROUND_DATA_EXEMPTION_PROMPT = 11
+    const val TAG = "GmsCompat/Notifications"
 
     private val uniqueNotificationId = AtomicInteger(10_000)
     fun generateUniqueNotificationId() = uniqueNotificationId.getAndIncrement()
@@ -192,7 +194,8 @@ object Notifications {
         val ctx = App.ctx()
 
         if (!GmsCompat.isEnabledFor(GmsInfo.PACKAGE_PLAY_STORE, ctx.userId)) {
-            return
+            Log.e(TAG, "GmsCompat is not enabled for " + GmsInfo.PACKAGE_PLAY_STORE);
+	    return
         }
 
         val uri = Uri.parse("market://details?id=$appPkg")
